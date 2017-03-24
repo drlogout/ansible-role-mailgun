@@ -1,26 +1,11 @@
 ---
 
-# We will look for the most specific variable files first and eventually
-# end up with the least-specific files.
-- name: Gather variables for each operating system
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "../vars/{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yml"
-    - "../vars/{{ ansible_distribution | lower }}.yml"
-    - "../vars/{{ ansible_os_family | lower }}.yml"
-  tags:
-    - always
-
-- include: fedora.yml
-  when: ansible_distribution == 'Fedora'
-
-- include: redhat.yml
-  when:
-    - ansible_os_family == 'RedHat'
-    - ansible_distribution != 'Fedora'
-
-- include: debian.yml
-  when: ansible_os_family == 'Debian'
+- name: Install packages
+  apt:
+    name: postfix
+    state: present
+    update_cache: yes
+    cache_valid_time: 86400
 
 - name: Include Mailgun configuration in main.conf
   lineinfile:
@@ -28,6 +13,7 @@
     line: "{{ item.line }}"
     regexp: "{{ item.regexp }}"
   with_items:
+    - { regexp: "^myhostname", line: "myhostname = {{ mailgun_domain }}" }
     - { regexp: "^relayhost", line: "relayhost = [smtp.mailgun.org]:587" }
     - { regexp: "^smtp_tls_security_level", line: "smtp_tls_security_level = encrypt" }
     - { regexp: "^smtp_tls_note_starttls_offer", line: "smtp_tls_note_starttls_offer = yes" }
@@ -47,6 +33,6 @@
   lineinfile:
     dest: /root/.forward
     create: yes
-    line: "{{ root_forward }}"
+    line: "{{ mailgun_root_forward }}"
   when:
-    - root_forward is defined
+    - mailgun_root_forward is defined
