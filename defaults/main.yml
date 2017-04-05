@@ -7,5 +7,9 @@
 mailgun_username: username@example.com
 mailgun_password: supersecret
 mailgun_domain: "{{ inventory_hostname }}"
+mailgun_domain_mappings: []
+
 # Who should receive root's email?
 #mailgun_root_forward: user@example.com
+
+

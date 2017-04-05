@@ -7,6 +7,17 @@
     update_cache: yes
     cache_valid_time: 86400
 
+- name: Upload domain mappings
+  template:
+    src: generic.j2
+    dest: /etc/postfix/generic
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Run postmap
+  shell: postmap /etc/postfix/generic
+
 - name: Include Mailgun configuration in main.conf
   lineinfile:
     dest: /etc/postfix/main.cf
@@ -20,6 +31,7 @@
     - { regexp: "^smtp_sasl_auth_enable", line: "smtp_sasl_auth_enable = yes" }
     - { regexp: "^smtp_sasl_password_maps", line: "smtp_sasl_password_maps = static:{{ mailgun_username }}:{{ mailgun_password }}" }
     - { regexp: "^smtp_sasl_security_options", line: "smtp_sasl_security_options = noanonymous" }
+    - { regexp: "^smtp_generic_maps", line: "smtp_generic_maps = hash:/etc/postfix/generic" }
   notify:
     - restart postfix
 
