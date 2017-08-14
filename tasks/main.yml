@@ -41,10 +41,18 @@
     state: started
     enabled: yes
 
-- name: Set root's email forward
+- set_fact:
+    all_aliases: "{{ mailgun_aliases }} + [ 'root' ]"
+
+- name: Set aliases for local forwards
   lineinfile:
-    dest: /root/.forward
-    create: yes
-    line: "{{ mailgun_root_forward }}"
+    dest: /etc/aliases
+    line: "{{ item }}: {{ mailgun_root_forward }}"
+  with_items: "{{ all_aliases }}"
+  when:
+    - mailgun_root_forward is defined
+
+- name: Run newaliases
+  shell: newaliases
   when:
     - mailgun_root_forward is defined
