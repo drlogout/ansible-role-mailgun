@@ -42,7 +42,7 @@
     enabled: yes
 
 - set_fact:
-    all_aliases: "{{ mailgun_aliases }} + [ 'root' ]"
+    all_aliases: "{{ mailgun_forward_aliases }} + [ 'root' ]"
 
 - name: Set aliases for local forwards
   lineinfile:
