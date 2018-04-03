@@ -35,6 +35,24 @@
   notify:
     - restart postfix
 
+- name: Set smtp_generic_maps to hash if mailgun_regexp_mapping == no
+  lineinfile:
+    dest: /etc/postfix/main.cf
+    regexp: "^smtp_generic_maps"
+    line: "smtp_generic_maps = hash:/etc/postfix/generic"
+  when: ! mailgun_regexp_mapping
+  notify:
+    - restart postfix
+
+- name: Set smtp_generic_maps to regexp if mailgun_regexp_mapping == yes
+  lineinfile:
+    dest: /etc/postfix/main.cf
+    regexp: "^smtp_generic_maps"
+    line: "smtp_generic_maps = regexp:/etc/postfix/generic"
+  when: mailgun_regexp_mapping
+  notify:
+    - restart postfix
+
 - name: Ensure Postfix has started and will start on reboot
   service:
     name: postfix
