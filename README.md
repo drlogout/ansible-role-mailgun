@@ -1,50 +1,54 @@
+Role Name
+=========
 
-ansible-role-mailgun
-===============
-
-[![Build Status](https://travis-ci.org/major/ansible-mailgun.svg?branch=master)](https://travis-ci.org/major/ansible-mailgun)
-
-This role configures postfix to use [Mailgun](http://mailgun.com) for outgoing
-email on Ubuntu servers.
-
+A brief description of the role goes here.
 
 Requirements
 ------------
 
-Ansible 1.9 is strongly recommended, but Ansible 1.8 should work.
-
+Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
 Role Variables
 --------------
 
-The variables for this role are found within `defaults/main.yml` and include
-the following:
+Required variables:
 
-* _mailgun_username_ - your Mailgun SMTP username
-* _mailgun_password_ - your Mailgun SMTP password
-* mailgun_domain - your Mailgun domain
-* mailgun_root_forward - the email address root's email is forwarded to
+```yml
 
-**Please note:** This is your SMTP username/password combination, not the
-credentials you use to access the Mailgun dashboard on the website. The SMTP
-credentials should be different for each domain you host and they're found
-here:
+postfix_relay_smtp_host: ""
+postfix_relay_smtp_user: ""
+postfix_relay_smtp_password: ""
 
-    https://mailgun.com/app/domains/{your-domain-name}
+```
+
+Default variables:
+
+```yml
+
+postfix_relay_smtp_port: 587
+
+```
 
 Dependencies
 ------------
 
-This role has no dependencies.
+A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
+Example Playbook
+----------------
+
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+
+    - hosts: servers
+      roles:
+         - { role: username.rolename, x: 42 }
 
 License
 -------
 
-Apache 2.0
-
+BSD
 
 Author Information
 ------------------
 
-[Major Hayden](http://majorhayden.com)
+An optional section for the role authors to include contact information, or a website (HTML is not allowed).

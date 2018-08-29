@@ -1,20 +1,15 @@
 ---
+# defaults file for ansible-role-postfix-relay
 
-# Mailgun SMTP documentation:
-#
-#    https://documentation.mailgun.com/user_manual.html#sending-via-smtp
-#
-mailgun_username: username@example.com
-mailgun_password: supersecret
-mailgun_domain: "{{ inventory_hostname }}"
-mailgun_regexp_mapping: no
-mailgun_domain_mappings: []
+postfix_relay_smtp_port: 587
+#postfix_relay_smtp_host: ""
+#postfix_relay_smtp_user: ""
+#postfix_relay_smtp_password: ""
+
+postfix_relay_domain_mappings: []
 
 # Who should receive root's email?
-#mailgun_root_forward: user@example.com
+#postfix_relay_root_forward: user@example.com
 
-# Additional users whose email should be forwarded to mailgun_root_forward
-mailgun_forward_aliases: []
-
-
-
+# Additional users whose email should be forwarded to postfix_relay_root_forward
+postfix_relay_forward_aliases: []
